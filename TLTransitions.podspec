@@ -1,10 +1,10 @@
 
 Pod::Spec.new do |s|
   s.name         = 'TLTransitions'
-  s.version      = '1.5.1'
+  s.version      = '1.5.3'
   s.license      = 'MIT'
-  s.ios.deployment_target = '8.0'
-  s.platform     = :ios, '8.0'
+  s.ios.deployment_target = '11.0'
+  s.platform     = :ios, '11.0'
   s.summary      = 'Fast implement transitions for view or viewController'
   s.homepage     = 'https://github.com/LoongerTao/TLTransitions'
   s.author       = { 'LoongerTao' => '495285195@qq.com' }
