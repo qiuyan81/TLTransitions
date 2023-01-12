@@ -75,7 +75,8 @@ typedef enum : NSUInteger {
 
 + (BOOL)isIPhoneX {
     // iPhoneX 系列(XR & X Max : 414, 896, X & Xs : 375, 812)
-    BOOL isIPhoneX = tl_isIPhoneX;
+    //BOOL isIPhoneX = tl_isIPhoneX;
+    BOOL isIPhoneX = [TLTransition my_safeDistanceBottom]>0;
     return isIPhoneX;
 }
 
@@ -357,9 +358,12 @@ typedef enum : NSUInteger {
     }else { // default
         presentedViewControllerFrame.size = presentedViewContentSize;
         if(self.pType == TLPopTypeActionSheet){
-            if([[self class] isIPhoneX]){
+            /*if([[self class] isIPhoneX]){
                 presentedViewControllerFrame.size.height += 34;
-            }
+            }*/
+            NSLog(@"TLTransition my_safeDistanceBottom:%.f",[TLTransition my_safeDistanceBottom]);
+            presentedViewControllerFrame.size.height += [TLTransition my_safeDistanceBottom];
+
             presentedViewControllerFrame.origin.y = CGRectGetMaxY(containerViewBounds) - presentedViewControllerFrame.size.height;
         }else if(self.pType == TLPopTypeAlert || self.pType == TLPopTypeAlert2){
             // 垂直居中
@@ -676,6 +680,20 @@ typedef enum : NSUInteger {
 
 - (void)dealloc{
     tl_LogFunc
+}
+
+/// 底部安全区高度
++ (CGFloat)my_safeDistanceBottom {
+    if (@available(iOS 13.0, *)) {
+        NSSet *set = [UIApplication sharedApplication].connectedScenes;
+        UIWindowScene *windowScene = [set anyObject];
+        UIWindow *window = windowScene.windows.firstObject;
+        return window.safeAreaInsets.bottom;
+    } else if (@available(iOS 11.0, *)) {
+        UIWindow *window = [UIApplication sharedApplication].windows.firstObject;
+        return window.safeAreaInsets.bottom;
+    }
+    return 0;
 }
 @end
 
